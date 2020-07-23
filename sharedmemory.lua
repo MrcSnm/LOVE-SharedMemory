@@ -273,7 +273,8 @@ end
 
 --Cant pass arguments in "start" of the thread  
 function SHARED_MEMORY.newThread(fileOrCode, ...)
-    if fileOrCode:match(".lua") then
+    if fileOrCode:sub(#fileOrCode-3) == ".lua" then
+
         local nFileOrCode = love.filesystem.read(fileOrCode)
         if(not nFileOrCode) then
             error("SHARED_MEMORY: \""..fileOrCode.."\" not found")
