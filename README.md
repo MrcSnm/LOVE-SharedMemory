@@ -78,8 +78,19 @@ shareThread = SHARED_MEMORY.newThread("sample.lua", 55, 90, "anything", "*")
 SHARED_MEMORY.start(shareThread)
 ```
 
-## Non instrusive way
+### No code for update sharing
+Other advantage of the intrusive way is that create a really nice syntactic sugar:
+For every shared var it is using, calling the **=** symbol will make your new variable value available to every other thread,
+by appending a setVarValue right after assigning it, so, this code:
+`myVariable = "This is an updated value"` turns into this 
+```lua
+myVariable = "This is an updated value"
+SHARED_MEMORY.setVarValue("myVariable", myVariable)
+```
 
+## Non instrusive way
+There is actually no reason for using it unless you want to have full control of its pipeline, the intrusive way just modifies your code and then creates
+a thread with it
 ### Third step
 ```lua
 thread = love.thread.newThread("mythreadcode.lua")
