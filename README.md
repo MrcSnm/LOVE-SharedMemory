@@ -1,4 +1,5 @@
 # LOVE-SharedMemory
+Sharing variables between threads
 
 # Why
 In Love2D, child thread variables are separated from the main thread, the main way to connect those variables are between
