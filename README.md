@@ -18,6 +18,7 @@ the SoundData to the available type (those are defined on SHARED_MEMORY.AVAILABL
 the type, and the bit which represents that has finished data is the -1 number divided by the magic number.
 
 # How to use it
+Download sharedmemory.lua and memoryaccess.lua and put it into the root of your project
 There are 2 ways to use it, there is the intrusive way and the non-instrusive way, the intrusive way will take care of boilerplate
 code, but in the full way, it works like this:
 
