@@ -143,3 +143,57 @@ This code have some limitations
 - It doesn't supports any kind of nested table(array nor map)
 - It has a variable size limitation, currently is 2800 character values(To keep sample sizes small)
 - You can change its size at your own need(Just search for SHARED_MEMORY.newVar), but changing its size will change for every variable, and i recommend not changing it at runtime
+
+
+# Some sample code
+
+main.lua:
+```lua
+require "sharedmemory"
+
+
+function love.load()
+    SHARED_MEMORY.newVar("maptest", SHARED_MEMORY.AVAILABLE_TYPES.MAP, 
+    {
+        ["hello"] = "oi",
+        ["there"] = "hipreme"
+    })
+    globalCount = 1
+    --Short way to mean the same thing above
+    _Shared.numtest = globalCount
+    _Shared.strtest = "String defined inside main"
+    _Shared.arraytest = {5, 3, 10, 90}
+    local shareThread = SHARED_MEMORY.newThread("sample.lua", 55, "*")
+    SHARED_MEMORY.start(shareThread)
+end
+
+function love.keypressed(k)
+    if(k == "k") then
+        SHARED_MEMORY.setVarValue("maptest", {["hello"] = "god!"})
+    elseif k == "j" then
+        _Shared.maptest =  {["there"] = "nohipreme"}
+    elseif k == "h" then
+        print(SHARED_MEMORY.getVarValue("strtest"))
+    elseif k == "g" then
+        globalCount = globalCount + 1
+        _Shared.numtest = globalCount
+    end
+end
+
+function love.update(dt)
+    
+end
+```
+sample.lua:
+```lua
+require("love.timer")
+maptest = {beware = "insider"}
+numtest = 100
+strtest = "my string was modified inside sample thread"
+arraytest = {"hello", 525, "dear", "friend"}
+while true do
+    love.timer.sleep(1)
+    print(numtest)
+    SHARED_MEMORY._checkUpdates()
+end
+```
